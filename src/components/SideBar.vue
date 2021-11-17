@@ -1,0 +1,75 @@
+<template>
+  <aside class="cart-container">
+      <div class="cart">
+          <h1 class="cart-title spread">
+              <span>
+              Cart
+              <i class="icofont-cart-alt icofont-1x"></i>
+              </span>
+              <button class="cart-close" @click="toggleSideBar">&times;</button>
+          </h1>
+
+          <div class="cart-body">
+              <table class="cart-table">
+                  <thead>
+                      <tr>
+                          <th><span class="sr-only">Product Image</span></th>
+                          <th>Product</th>
+                          <th>Price</th>
+                          <th>Qty</th>
+                          <th>Total</th>
+                          <th><span class="sr-only">Actions</span></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr
+                      v-for="(quantity, key, index) in cart"
+                      :key="index"
+                      >
+                          <td><i class="icofont-carrot icofont-3x"></i></td>
+                          <td>{{ key }}</td>
+                          <td>${{ getPrice(key).toFixed(2) }}</td>
+                          <td class="center">{{ quantity }}</td>
+                          <td>${{ (quantity * getPrice(key)).toFixed(2) }}</td>
+                          <td class="center">
+                              <button class="btn btn-light cart-remove" @click="removeProduct(key)">
+                                  &times;
+                              </button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+
+              <p v-if="Object.keys(cart).length === 0" class="center"><em>No items in cart</em></p>
+
+              <div class="spread">
+                  <span><strong>Total:</strong>${{ calculateTotal() }}</span>
+                  <button class="btn btn-light">Checkout</button>
+              </div>
+          </div>
+      </div>
+  </aside>
+</template>
+
+<script>
+export default {
+  props: ['cart', 'toggleSideBar', 'removeProduct', 'inventory'],
+  methods: {
+    getPrice (name) {
+      const product = this.inventory.filter((product) => product.name === name)[0]
+      return product.price.USD
+    },
+    calculateTotal () {
+      // Object.values => creates an array of the object's values
+      // Object.keys => creates an array of the object's keys
+      // Object.entries => creates an array of arrays => each array contains the respective key value pair
+      const total = Object.entries(this.cart).reduce((acc, curr) => {
+        return acc + (curr[1] * this.getPrice(curr[0]))
+      }, 0)
+
+      return total.toFixed(2)
+    }
+
+  }
+}
+</script>

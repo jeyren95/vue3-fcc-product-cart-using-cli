@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// using these .vue files allow us to put our html, css, javascript in the same file
+// all these are parsed and bundled by the tools that vue cli sets up for us
 import Home from '../views/Home.vue'
+import Products from '../views/Products.vue'
+import PastOrders from '../views/PastOrders.vue'
 
 const routes = [
   {
@@ -8,12 +12,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/products',
+    name: 'Products',
+    component: Products
+  },
+  {
+    path: '/past-orders',
+    name: 'Past Orders',
+    component: PastOrders
   }
 ]
 

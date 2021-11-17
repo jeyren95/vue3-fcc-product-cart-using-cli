@@ -2,4 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-createApp(App).use(router).mount('#app')
+// import css here
+// working with pre-processors => need to install the relevant packages
+import './assets/styles/style.scss'
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
